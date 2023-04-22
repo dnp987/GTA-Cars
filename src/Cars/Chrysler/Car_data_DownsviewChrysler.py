@@ -4,7 +4,6 @@ Updated 22Apr2023
 '''
 from datetime import datetime
 import re
-#from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
