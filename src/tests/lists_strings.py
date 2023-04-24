@@ -11,6 +11,8 @@ print ('*******')
 print (a[:-4])
 print(a[4:])
 print ('*******')
+print (a[::-1])
+print ('*******')
 b = a.split()
 print (len(b), b)
 for index, i in enumerate(a):
