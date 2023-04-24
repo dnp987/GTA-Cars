@@ -45,7 +45,7 @@ if __name__ == '__main__':
     count = 0
     car_info = []
     
-    for index, car in enumerate(car_details):
+    for index, (car, prices, stock, links) in enumerate(zip(car_details, car_prices, stock_num, details_links)):
         car_text = car.find_elements(By.CSS_SELECTOR, '.vehicle-card__title')
         link = (details_links[index].get_attribute('href')).split()
         car_desc = car_text[0].text
@@ -56,31 +56,23 @@ if __name__ == '__main__':
         model = [' '.join(model)] # merge the model into one list element
         car_desc = year + make + model
         
-        no_price = car_prices[index].find_elements(By.CSS_SELECTOR, '.vehicle-card__no-price') # if there's no price there's a different css selector used
+        no_price = prices.find_elements(By.CSS_SELECTOR, '.vehicle-card__no-price') # if there's no price there's a different css selector used
         if len(no_price) > 0:
             price = "0"
             zero += 1
 
-        raw_price = car_prices[index].find_elements(By.CSS_SELECTOR, '[convertus-data-id="srp__dealer-price"]')
+        raw_price = prices.find_elements(By.CSS_SELECTOR, '[convertus-data-id="srp__dealer-price"]')
         if len(raw_price) > 0:
             price = raw_price[0].text
             price = re.sub("[$,]", "", price) # remove $ and commas from the prices so that they're numeric
             price = price.strip('\n') # remove carriage return from price
-            count += 1
         
+        count += 1
         price = price.split() # convert to a list
       
-        print (index, " : ", dealer_id + car_desc + price + stock_num[index].split() + link)
-        car_info.append(dealer_id + car_desc + price + stock_num[index].split() + link)
-        
-    print ("Priced cars: ", count, "Unpriced cars: ", zero)
-
-    car_info = sorted(car_info)
-    for index, i in enumerate(car_info):
-        print (index, ":", i)
+        print (index, " : ", dealer_id + car_desc + price + stock.split() + link)
+        car_info.append(dealer_id + car_desc + price + stock.split() + link)
     
-    print ("Saving data in a spreadsheet....", file_out)
-    CreateDealerSheet(data_out, car_info, date_time)
-    print (dealer, "Total cars: " , count+zero)
-    data_out.save_file(file_out)
-    driver.quit() # Close the browser and end the session
+    num_cars = count
+    close_out(driver, dealer, count, zero, num_cars, data_out, file_out, date_time, car_info)
+    

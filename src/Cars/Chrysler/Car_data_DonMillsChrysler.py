@@ -50,9 +50,9 @@ if __name__ == '__main__':
         car_prices = driver.find_elements(By.CSS_SELECTOR, '[convertus-data-id="srp__dealer-price"]')
         details_links = driver.find_elements(By.CSS_SELECTOR, '.vehicle-card__image-wrap [href]')
         
-        for index, car in enumerate(car_details):
+        for index, (car, prices, links) in enumerate(zip(car_details, car_prices, details_links)):
             car_text = car.find_elements(By.CSS_SELECTOR, '.vehicle-card__title')
-            link = (details_links[index].get_attribute('href')).split()
+            link = (links.get_attribute('href')).split()
             car_desc = car_text[0].text
             car_desc = (car_desc +" ").split()[:4] # keep the year, make, and model, remove the rest
             year = car_desc[0].split() # convert the year to a list
@@ -61,7 +61,7 @@ if __name__ == '__main__':
             model = [' '.join(model)] # merge the model into one list element
             car_desc = year + make + model
             
-            price = car_prices[index].text
+            price = prices.text
             price = price.strip('\n') # remove carriage return from price
             price= re.sub("[^0-9]", "", price) #remove text, keep the numeric part
             price = price.split() # convert to a list
