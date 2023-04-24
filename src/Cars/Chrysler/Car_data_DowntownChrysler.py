@@ -5,7 +5,6 @@ Same as Scarborough Mazda
 from datetime import datetime
 from time import sleep
 import re
-#from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -13,9 +12,10 @@ from Quotes.Excel_utils2 import Excel_utils2
 from Cars.CreateDealerSheet2 import CreateDealerSheet
 from Cars.mazda_fix import mazda_fix
 from Cars.browser_start import browser_start
+from Cars.close_out import close_out
 
 if __name__ == '__main__':
-    file_in = 'C:/Users/Home/Desktop/Cars/CarData.xlsx'
+    file_in = 'C:/Users/dpenn/Desktop/Cars/CarData.xlsx'
     data_in = Excel_utils2(file_in, 'Chrysler', 'in')
     file_out = data_in.sht.cell(3,7).value
     dealer = data_in.sht.cell(3,1).value
@@ -24,26 +24,26 @@ if __name__ == '__main__':
     date_time = datetime.now().strftime('%Y %B %d %I %M %p') # get the date and time
     data_out = Excel_utils2(' ', date_time, 'out') # set the spreadsheet tab to the dealer name
     
-    #headless = False
-    headless = True
+    headless = False
+    #headless = True
     driver = browser_start(url, headless)
         
     wait = WebDriverWait(driver, 10) # set the default web element wait time
-    WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".listing-used-button-loading"))) # wait for "LOAD MORE" data button
+    WebDriverWait(driver, 30).until(EC.visibility_of_element_located((By.CSS_SELECTOR, '.logo_wrapper'))) # site logo
     print (driver.title)
-    num_cars = driver.find_element_by_css_selector('.number')
+    num_cars = driver.find_element(By.CSS_SELECTOR, 'span.srp_carbon_results__count--digits')
     print ("Number of cars found on site: " , num_cars.text)
     scroll_pause_time = 4 
     page_count = 0
     
     while True:
         try:
-            driver.find_element_by_css_selector('.listing-used-button-loading').click() # get the next set of data
+            driver.find_element(By.CSS_SELECTOR, '.listing-used-button-loading').click() # get the next set of data
             page_count +=1
             sleep(6) # need at least 4-6 seconds pause for the page data to load and settle.
             try:
-                #driver.find_element_by_css_selector('.cherry-popper-15096-close').click() # close the annoying pop-up if it appears
-                driver.find_element_by_css_selector('.popup-image__closer').click() # close the annoying pop-up if it appears
+                #driver.find_element(By.CSS_SELECTOR, '.cherry-popper-15096-close').click() # close the annoying pop-up if it appears
+                driver.find_element(By.CSS_SELECTOR, '.popup-image__closer').click() # close the annoying pop-up if it appears
             except:
                 continue
         except:
@@ -52,10 +52,10 @@ if __name__ == '__main__':
 
     href = (driver.page_source).split('href')
     
-    car_desc = driver.find_elements_by_css_selector('.car-name') # car description, make, model
-    car_prices = driver.find_elements_by_css_selector('.price') # car prices
-    stock = driver.find_elements_by_css_selector('div.car-info > div:nth-child(1)') # car stock #
-    details_links = driver.find_elements_by_css_selector('.car-image')
+    car_desc = driver.find_elements(By.CSS_SELECTOR, '.car-name') # car description, make, model
+    car_prices = driver.find_elements(By.CSS_SELECTOR, '.price') # car prices
+    stock = driver.find_elements(By.CSS_SELECTOR, 'div.car-info > div:nth-child(1)') # car stock #
+    details_links = driver.find_elements(By.CSS_SELECTOR, '.car-image')
      
     count = 0
     zero = 0
@@ -82,7 +82,8 @@ if __name__ == '__main__':
         print (index,":", car_desc, price, stock_num, link)
         car_info.append(dealer_id + car_desc + price + stock_num + link) 
         count += 1
-
+    
+    #close_out(driver, dealer, count, zero, num_cars, data_out, file_out, date_time, car_info)
     car_info = sorted(car_info)
     for index, i in enumerate(car_info):
         print (index, ":", i)
