@@ -5,13 +5,19 @@ Created on Jul 17, 2020
 '''
 import re
 
-a = 'abc def ghi xyz'
-print (len(a), a)
+a = 'Pre-Owned 2007 Dodge Ram 1500 SLT 4D Quad Cab'
+print (len(a))
+print (a)
 print ('*******')
 print (a[:-4])
 print(a[4:])
 print ('*******')
 print (a[::-1])
+print ('*******')
+aa = a.replace('Pre-Owned ', '')
+print (len(aa))
+print (aa)
+print (aa[:4])
 print ('*******')
 b = a.split()
 print (len(b), b)
