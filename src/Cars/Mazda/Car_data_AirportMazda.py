@@ -15,7 +15,7 @@ from Cars.browser_start import browser_start
 from selenium.webdriver.common.action_chains import ActionChains
 
 if __name__ == '__main__':
-    file_in = 'C:/Users/Home/Desktop/Cars/CarData.xlsx'
+    file_in = 'C:/Users/dpenn/Desktop/Cars/CarData.xlsx'
     data_in = Excel_utils2(file_in, 'Mazda', 'in')
     file_out = data_in.sht.cell(4,7).value
     dealer = data_in.sht.cell(4,1).value
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     #WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".dealer-path-override-img"))) # wait for dealer logo to be displayed
     WebDriverWait(driver, 60).until(EC.visibility_of_element_located((By.CSS_SELECTOR, 'span.d-sm-inline'))) # wait for number of cars to be displayed
     print (driver.title)
-    num_cars = driver.find_element_by_css_selector('span.d-sm-inline').text
+    num_cars = driver.find_element(By.CSS_SELECTOR, 'span.d-sm-inline').text
     num_cars = int(re.sub("[^0-9]", "", num_cars)) #remove text, keep the numeric part, and convert to integer for later use
     print ("Number of cars found on site: " , num_cars)
     count = 0
@@ -37,11 +37,11 @@ if __name__ == '__main__':
     car_info = []
     pages_remaining = True
     while pages_remaining:
-        car_desc = driver.find_elements_by_css_selector(".vehicle-card-title")
-        # car_prices = driver.find_elements_by_css_selector('.value:not(.text-nowrap)')
-        car_prices = driver.find_elements_by_css_selector('span.price-value')
-        details_links = driver.find_elements_by_css_selector('.vehicle-card-title [href]')
-        stock_contents = driver.find_elements_by_css_selector('li.stockNumber') # stock contents
+        car_desc = driver.find_elements(By.CSS_SELECTOR, ".vehicle-card-title")
+        # car_prices = driver.find_elements(By.CSS_SELECTOR, '.value:not(.text-nowrap)')
+        car_prices = driver.find_elements(By.CSS_SELECTOR, 'span.price-value')
+        details_links = driver.find_elements(By.CSS_SELECTOR, '.vehicle-card-title [href]')
+        stock_contents = driver.find_elements(By.CSS_SELECTOR, 'li.stockNumber') # stock contents
         stock_num = []
         for index, stock in enumerate(stock_contents):
             temp_stock = (stock.text).split('Stock #:')[1]
@@ -75,8 +75,8 @@ if __name__ == '__main__':
         print ("Running count: ", count)
           
         try:
-            next_page = driver.find_element_by_css_selector('li.pagination-next [href]')
-            page_num = driver.find_element_by_css_selector('li.active').text
+            next_page = driver.find_element(By.CSS_SELECTOR, 'li.pagination-next [href]')
+            page_num = driver.find_element(By.CSS_SELECTOR, 'li.active').text
             print ("Page #: ", page_num, " : ", next_page.get_attribute('href'))
             ActionChains(driver).move_to_element(next_page).click(next_page).perform() # click on Next link
             #next_page.click() # click on Next link
