@@ -15,7 +15,7 @@ from Cars.mazda_fix import mazda_fix
 from Cars.browser_start import browser_start
 
 if __name__ == '__main__':
-    file_in = 'C:/Users/Home/Desktop/Cars/CarData.xlsx'
+    file_in = 'C:/Users/dpenn/Desktop/Cars/CarData.xlsx'
     data_in = Excel_utils2(file_in, 'Mazda', 'in') # filename and path, tab name,, input or output
     file_out = data_in.sht.cell(5,7).value
     dealer = data_in.sht.cell(5,1).value
@@ -29,7 +29,7 @@ if __name__ == '__main__':
     wait = WebDriverWait(driver, 10)
     WebDriverWait(driver, 60).until(EC.presence_of_element_located((By.ID, 'new-listing-title'))) # wait for the page title to load
     print (driver.title)
-    num_cars = driver.find_element_by_css_selector(".v3-vehicle-count").text # get the total cars for sale
+    num_cars = driver.find_element(By.CSS_SELECTOR, ".v3-vehicle-count").text # get the total cars for sale
     num_cars = int(re.sub("[^0-9]", "", num_cars)) #remove text, keep the numeric part, and convert to integer for later use
     print ("Number of cars found on site: " , num_cars)
     scroll_pause_time = 2 # scroll all the way down until all pages are loaded
@@ -38,10 +38,10 @@ if __name__ == '__main__':
     zero = 0
     count = 0
     car_info = []
-    car_details = driver.find_elements_by_css_selector('.veh-info-1')
-    details_links = driver.find_elements_by_css_selector('.btn-instock-inv-1 .btn-view-detail')
+    car_details = driver.find_elements(By.CSS_SELECTOR, '.veh-info-1')
+    details_links = driver.find_elements(By.CSS_SELECTOR, '.btn-instock-inv-1 .btn-view-detail')
     for index, car in enumerate(car_details):
-        car_text = car.find_element_by_css_selector('.vehicle-year-make-model').text
+        car_text = car.find_element(By.CSS_SELECTOR, '.vehicle-year-make-model').text
         car_desc = (car_text +" ").split()[:5] # keep the year, make, and model, remove the rest
         year = car_desc[0].split() # convert the year to a list
         make = car_desc[1] 
@@ -50,7 +50,7 @@ if __name__ == '__main__':
         model = [' '.join(model)] # merge the model into one list element
         make = make.split() # convert make to a list
         car_desc = year + make + model
-        price =  car.find_element_by_css_selector('.vehicle-price-2-new').text 
+        price =  car.find_element(By.CSS_SELECTOR, '.vehicle-price-2-new').text 
         price = re.sub("[^0-9]", "", price) #remove text and keep the numeric part
         if len(price) == 0: # if the price is "Call for price" or something non-numeric, set the price to 0
             price = '0'
@@ -58,7 +58,7 @@ if __name__ == '__main__':
         else:
             count += 1
         price = price.split() # convert price to a list
-        stock = driver.find_elements_by_css_selector('td.table-col-1' '[itemprop = "sku"]')
+        stock = driver.find_elements(By.CSS_SELECTOR, 'td.table-col-1' '[itemprop = "sku"]')
         stock_num = (stock[index].text).split() # get the car stock # and convert to a list
         link = (details_links[index].get_attribute('href')).split()
         print (index, ": ", car_desc, price, stock_num, link)
