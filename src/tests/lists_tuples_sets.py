@@ -1,4 +1,5 @@
 a = ['apple', 'orange', 'banana', 'grape']
+print (type(a))
 print (a.count('apple'))
 print (a.index('apple'))
 a.append('pear')
@@ -15,11 +16,12 @@ b[1] ="red"
 print (b)
 
 t = (1234, 5678, 'hello')
-print (t[0], len(t))
+print (t[0], len(t), type(t))
 #t[1] = 777
 print (t)
 
 set1 = {'apple', 'orange', 'banana'}
+print (type(set1))
 print (set1)
 print ('grape' in set1)
 
