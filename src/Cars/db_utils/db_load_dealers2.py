@@ -1,8 +1,8 @@
 '''
-Created on Aug 21, 2020
+Created on May 31, 2023
 
 @author: DNP Enterprises Inc.
-Loads the carsdb.dealers database from spreadsheets
+Loads the cars data into a pandas dataframe  from spreadsheets
 '''
 import openpyxl
 import pandas as pd
