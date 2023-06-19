@@ -70,7 +70,7 @@ if __name__ == '__main__':
             next_page = driver.find_element(By.LINK_TEXT, "Next")
             print (next_page.get_attribute('href'))
             next_page.click() # click on Next link
-            sleep (2)
+            sleep (10)
         except:
             pages_remaining = False
         
