@@ -63,7 +63,6 @@ if __name__ == '__main__':
             link = links.get_attribute('href').split()
             print (index,":", car_desc, price, stock_num, link)
             car_info.append(dealer_id + car_desc + price + stock_num + link) 
-            
         count = count + index +1
         print ("Running count: ", count)
           
