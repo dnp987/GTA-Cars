@@ -10,7 +10,7 @@ import pandas as pd
 if __name__ == '__main__':
     car_data_file = 'C:/Users/dpenn/Desktop/Cars/CarData.xlsx'
     dealer_wkbk = openpyxl.load_workbook(car_data_file)
-    prices = pd.DataFrame(columns = ['ID', 'Year', 'Make', 'Model', 'Price', 'Stock #', 'URL']) #create dataframe ready for loading
+    prices = pd.DataFrame(columns = ['ID', 'Year', 'Make', 'Model', 'Price', 'Stocknum', 'URL']) #create dataframe ready for loading
     total_record_count = 0    
     for index, dealer_sheet in enumerate(dealer_wkbk.sheetnames): #get each dealer sheet
         print (dealer_sheet)
@@ -33,7 +33,7 @@ if __name__ == '__main__':
                 stock_num =row[5].value
                 link = row[6].value
                 print ("ID: ", dealer_id, "Year: ", year, "Make: ", make, "Model: ", model, "Price: ", price, "Stock #: ", stock_num, "URL: ", link)
-                val = pd.DataFrame([{'ID': dealer_id, 'Year': year, 'Make': make, 'Model': model, 'Price': price, 'Stock #': stock_num, 'URL':link}])
+                val = pd.DataFrame([{'ID': dealer_id, 'Year': year, 'Make': make, 'Model': model, 'Price': price, 'Stocknum': stock_num, 'URL':link}])
                 prices = pd.concat([prices, val])
                 dealer_record_count +=1
             print ("Dealer record count: ", dealer_record_count)
