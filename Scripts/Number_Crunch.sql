@@ -5,6 +5,7 @@ select  year, make, model, max(price) from prices group by year, make, model ord
 select year, make, model, count(price) from prices where price > 0 group by year, make, model order by year;
 
 select * from prices order by model;
+select * from dealers;
 select * from prices where make = "Mazda" and model = "Mazda3 GX";
 select * from prices where dealer_id like "%CHRYSLER%";
 select * from prices where dealer_id not like "%FORD%" and model = "Focus";
