@@ -21,7 +21,7 @@ if __name__ == '__main__':
     dealer_id = (data_in.sht.cell(4,3).value).split() # convert to a list for use later
     date_time = datetime.now().strftime('%Y %B %d %I %M %p') # get the date and time
     data_out = Excel_utils2(' ', date_time, 'out') # set the spreadsheet tab to the dealer name
-    driver = browser_start(url, True) # run browser in headless mode
+    driver = browser_start(url, False) # run browser in headless mode
     #driver = browser_start(url) # run browser in non-headless, incognito mode
     wait = WebDriverWait(driver, 10)
     #wait.until(EC.visibility_of_element_located((By.CSS_SELECTOR, '[data-asset-name="Downtown Ford Logo Click For Homepage"]')))
@@ -43,7 +43,7 @@ if __name__ == '__main__':
             pass
         
         car_desc = driver.find_elements(By.CSS_SELECTOR, ".inventoryListVehicleTitle")
-        car_prices = driver.find_elements(By.CSS_SELECTOR, '.vehiclePriceDisplay' '[itemprop]')
+        car_prices = driver.find_elements(By.CSS_SELECTOR, '.vehiclePriceDisplay' '[itemprop="price"]')
         stock = driver.find_elements(By.CSS_SELECTOR, 'div.textboxContentWrapperInner em')
         details_links = driver.find_elements(By.CSS_SELECTOR, '.inventoryListVehicleTitle [href]')
 
@@ -70,7 +70,7 @@ if __name__ == '__main__':
             next_page = driver.find_element(By.LINK_TEXT, "Next")
             print (next_page.get_attribute('href'))
             next_page.click() # click on Next link
-            sleep (10)
+            sleep (15)
         except:
             pages_remaining = False
         
