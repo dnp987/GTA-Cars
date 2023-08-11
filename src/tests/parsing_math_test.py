@@ -5,7 +5,6 @@ Created on Jun 4, 2020
 '''
 # -*- coding: utf-8 -*-
 import re
-from builtins import len
 
 a = "abc   def ghi   x yz"
 print (a, len(a))
